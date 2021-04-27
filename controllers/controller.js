@@ -8,7 +8,7 @@ exports.getHome = (req, res) => {
     res.render('home', {
         path: '/',
         dateToday: dateToday,
-        weekDate: weekStart.getDate() + ", " + getFullMonth(weekStart.getMonth()) + " " + weekStart.getFullYear() + " - " + weekEnd.getDate() + ", " + getFullMonth(weekEnd.getMonth()) + " " + weekEnd.getFullYear()
+        weekDate: getFullMonth(weekStart.getMonth()) + " "+ weekStart.getDate() + ", " + " " + weekStart.getFullYear() + " - " + getFullMonth(weekEnd.getMonth()) + " " +weekEnd.getDate() + ", "  + " " + weekEnd.getFullYear()
     });
 };
 function getFullDay(d) {
