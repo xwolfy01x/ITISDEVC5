@@ -1,16 +1,28 @@
 html 
     head 
         title Grocery System Dashboard
+        link(rel="stylesheet", type="text/css", href="/css/layout.css")
+        link(rel="stylesheet", type="text/css", href="//fonts.googleapis.com/css?family=Open+Sans")
         block css
-            link(rel="stylesheet", type="text/css", href="/css/layout.css")
-            <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
         block scripts
     body
         header 
         .divider
             .links
                 img#groceryicon(src="/images/groceryicon.png" align="center")
-                a.link(href="/")
+                a.link(href="/", class=(path=='/' ? 'active' : ''))
                     img.sideicons(src="/images/dashboardicon.png")
                     span DASHBOARD
+                a.link(href="/products", class=(path=='/products' ? 'active' : ''))
+                    img.sideicons#product(src="/images/productsicon.png")
+                    span(style="margin-left:-7px;") PRODUCTS
+                a.link(href="/inventory", class=(path=='/inventory' ? 'active' : ''))
+                    img.sideicons(src="/images/inventoryicon.png")
+                    span INVENTORY
+                a.link(href="/transactions", class=(path=='/transactions' ? 'active' : ''))
+                    img.sideicons(src="/images/salesicon.png")
+                    span TRANSACTIONS
             .main
+                #divider
+                #mainContainer
+                    block maincontainer

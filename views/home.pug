@@ -1,1 +1,20 @@
 extends ./layouts/layout.pug
+block css
+    link(rel="stylesheet", type="text/css", href="/css/dashboard.css")
+block maincontainer
+    #partition
+        .partitionTop
+            img.partitionImg(src="/images/ordersicon2.png")
+            div(style="display:flex; justify-content: space-between; width: 100%;")
+                span(style="justify-content: flex-start;") Total Orders
+                span(style="color: #ffd400;") 0
+        .partitionTop
+            img.partitionImg(src="/images/salesicon2.png")
+            div(style="display:flex; justify-content: space-between; width: 100%;")
+                span(style="justify-content: flex-start;") Total Sales
+                span(style="color: #ffd400;") 0
+        .partitionTop
+            img.partitionImg(src="/images/expensesicon2.png")
+            div(style="display:flex; justify-content: space-between; width: 100%;")
+                span(style="justify-content: flex-start;") Total Purchases
+                span(style="color: #ffd400;") 0

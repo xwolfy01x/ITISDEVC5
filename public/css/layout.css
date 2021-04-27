@@ -33,19 +33,47 @@ header {
     font-size: 1vw;
     display: flex;
     align-items: center;
+    margin-bottom: 1%;
 }
 .link:hover {
-    background-color: #485063;
+    background-color: #82d682;
     transition: 0.25s ease-in;
 }
-.link:active {
-    background-color: #485063;
+.active {
+    background-color: #82d682;
 }
 .sideicons {
     width: 35px;
     height: auto;
     margin: 15px 15px 10px 20px;
 }
+#product {
+    width: 50px;
+    height: auto;
+    margin-left: 12px;
+}
 a {
     text-decoration: none;
+}
+.main {
+    display: grid;
+    grid-template-rows: 5% 1fr;
+    width: 100%;
+    height: 100%;
+    background-color: #e0e0e0;
+    box-sizing: border-box;
+}
+#divider { 
+    grid-row: 1/2;
+    background-color: #82d682;
+    width: 100%;
+    height: 100%;
+}
+#mainContainer {
+    grid-row: 2/3;
+    background-color: #ffffff;
+    height: auto;
+    width: auto;
+    margin: 1%;
+    box-sizing: border-box;
 }
