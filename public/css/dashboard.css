@@ -30,3 +30,33 @@
     margin: 0 auto 0 auto;
     border-radius: 50%;
 }
+.partitionBottom {
+    grid-column: 1/4;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    height: 100%;
+}
+.partitionBottomLeft, .partitionBottomRight {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 20% 15% 15% 15%;
+    width: auto;
+    height: auto;
+    margin: 20%;
+    font-family: 'Open Sans';
+    justify-content: center;
+    border: 3px solid #343d52;
+    box-shadow: 5px 5px #82d682;
+}
+.tr1, .tr2 {
+    display: flex;
+    justify-content: space-between;
+    grid-column: 1/3;
+    box-sizing: border-box;
+    align-items: center;
+    padding: 20px
+}
+.tr2 {
+    background-color: #e0e0e0;
+}

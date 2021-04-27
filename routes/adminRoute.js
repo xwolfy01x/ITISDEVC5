@@ -1,8 +1,5 @@
 const express = require('express');
 const route = express();
-route.get('/', (req, res) => {
-    res.render('home', {
-        path: '/'
-    });
-});
+const controller = require('../controllers/controller');
+route.get('/', controller.getHome);
 module.exports = route;
