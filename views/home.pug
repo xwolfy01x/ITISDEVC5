@@ -6,23 +6,23 @@ block maincontainer
         .partitionTop
             img.partitionImg(src="/images/ordersicon2.png")
             div(style="display:flex; justify-content: space-between; width: 100%;")
-                span(style="justify-content: flex-start;") Total Orders
+                span(style="justify-content: flex-start;") Monthly Orders
                 span(style="color: #ffd400;") 0
         .partitionTop
             img.partitionImg(src="/images/salesicon2.png")
             div(style="display:flex; justify-content: space-between; width: 100%;")
-                span(style="justify-content: flex-start;") Total Sales
+                span(style="justify-content: flex-start;") Monthly Sales
                 span(style="color: #ffd400;") 0
         .partitionTop
             img.partitionImg(src="/images/expensesicon2.png")
             div(style="display:flex; justify-content: space-between; width: 100%;")
-                span(style="justify-content: flex-start;") Total Purchases
+                span(style="justify-content: flex-start;") Monthly Purchases
                 span(style="color: #ffd400;") 0
         .partitionBottom
             .partitionBottomLeft
                 div(style="display: flex; flex-direction: column; grid-column: 1/3; padding: 20px;")
                     span(style="font-weight: bold; font-size: 1.5vh") TODAY
-                    span DATE
+                    span #{dateToday}
                 .tr2
                     span Total Orders
                     span 1
@@ -38,7 +38,7 @@ block maincontainer
             .partitionBottomRight
                 div(style="display: flex; flex-direction: column; grid-column: 1/3; padding: 20px;")
                     span(style="font-weight: bold; font-size: 1.5vh") THIS WEEK
-                    span DATE
+                    span #{weekDate}
                 .tr2
                     span Total Orders
                     span 1

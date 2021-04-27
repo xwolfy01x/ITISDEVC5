@@ -1,73 +1,21 @@
 exports.getHome = (req, res) => {
-    var dateToday = getFullDay() + ", " + getFullMonth();
+    var date = new Date();
+    var dateToday = getFullDay(date.getDay()) + ", " + getFullMonth(date.getMonth()) + " " + date.getDate() + ", " + date.getFullYear();
+    var startOfWeek = date.getDate() - date.getDay();
+    var endOfWeek = startOfWeek + 6;
+    var weekStart = new Date(date.setDate(startOfWeek));
+    var weekEnd = new Date(date.setDate(endOfWeek));
     res.render('home', {
-        path: '/'
+        path: '/',
+        dateToday: dateToday,
+        weekDate: weekStart.getDate() + ", " + getFullMonth(weekStart.getMonth()) + " " + weekStart.getFullYear() + " - " + weekEnd.getDate() + ", " + getFullMonth(weekEnd.getMonth()) + " " + weekEnd.getFullYear()
     });
 };
-function getFullDay() {
-    let day;
-    switch(new Date().getDay()) {
-        case 0:
-            day = "Sunday";
-            break;
-        case 1:
-            day = "Monday";
-            break;
-        case 2:
-            day = "Tuesday";
-            break;
-        case 3:
-            day = "Wednesday";
-            break;
-        case 4:
-            day = "Thursday";
-            break;
-        case 5:
-            day = "Friday";
-            break;
-        case 6:
-            day = "Saturday";
-    }
-    return day;   
+function getFullDay(d) {
+    var array = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    return array[d];
 }
-function getFullMonth() {
-    let month;
-    switch(new Date().getMonth()) {
-        case 0:
-            month = "January";
-            break;
-        case 1:
-            month = "February";
-            break;
-        case 2:
-            month = "March";
-            break;
-        case 3:
-            month = "April";
-            break;
-        case 4:
-            month = "May";
-            break;
-        case 5:
-            month = "June";
-            break;
-        case 6:
-            month = "July";
-            break;
-        case 7:
-            month = "August";
-            break;
-        case 8:
-            month = "September";
-            break;
-        case 9:
-            month = "October";
-            break;
-        case 10:
-            month = "November";
-            break;
-        case 11:
-            month = "December";
-    }
-    return month;
+function getFullMonth(m) {
+    var month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    return month[m];
 }
