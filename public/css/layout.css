@@ -1,0 +1,51 @@
+body {
+    margin: 0;
+}
+header {
+    background-color: #47b881;
+    width: 100%;
+    height: 5%;
+}
+.divider {
+    width: 100%;
+    height: 95%;
+    display: grid;
+    grid-template-columns: 15% 1fr;
+}
+.links {
+    grid-column: 1/2;
+    background-color: #343d52;
+    height: 100%;
+    box-sizing: border-box;
+
+}
+#groceryicon {
+    height: auto;
+    width: 80%;
+    border: 4px solid #000000;
+    border-radius: 50%;
+    display: block;
+    margin: 8% auto 5% auto;
+}
+.link {
+    color: white;
+    font-family: "Open Sans"; 
+    font-size: 1vw;
+    display: flex;
+    align-items: center;
+}
+.link:hover {
+    background-color: #485063;
+    transition: 0.25s ease-in;
+}
+.link:active {
+    background-color: #485063;
+}
+.sideicons {
+    width: 35px;
+    height: auto;
+    margin: 15px 15px 10px 20px;
+}
+a {
+    text-decoration: none;
+}

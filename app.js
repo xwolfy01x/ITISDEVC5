@@ -1,0 +1,10 @@
+const express = require('express');
+const bodyParser = require('body-parser');
+const adminRoute = require('./routes/adminRoute');
+const app = express();
+app.set('views', 'views');
+app.set('view engine', 'pug');
+app.use(express.static('public'));
+app.use(bodyParser.urlencoded({extended:false}));
+app.use(adminRoute);
+app.listen(3000);
