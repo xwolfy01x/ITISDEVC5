@@ -1,0 +1,81 @@
+#flexContainer{
+    justify-content: center;
+    align-items: center;
+}
+#mainInventoryContainer{
+    display: grid;
+    height: 100%;
+    width: 100%;
+    grid-template-rows: 1fr 75% 1fr;
+    grid-template-columns: 1fr 75% 1fr;
+}
+#restockForm{
+    height: 100%;
+    width: 100%;
+    background-color: #343d52;
+    grid-column: 2/3;
+    grid-row: 2/3;
+    margin: 0;
+}
+#griddiv{
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-columns:1fr 1fr;
+    justify-items: center;
+    align-items: center;
+}
+#griddiv1{
+    height: 100%;
+    width: 100%;
+    grid-column: 1/2;
+    display: flex;
+}
+#productImage{
+    height: 50%;
+    width: 50%;
+    margin: auto;
+}
+#griddiv2{
+    grid-column: 2/3;
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-rows:1fr 1fr;
+    justify-content: center;
+}
+#griddiv2-1{
+    grid-row: 1/2;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+#productSelect{
+    max-width: 50%;
+    cursor: pointer;
+}
+#productQuantity{
+    max-width: 25%;
+}
+#griddiv2-2{
+    grid-row: 2/3;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+#productPrice{
+    font-family: 'Open Sans';
+    font-size: 1.25vw;
+    color: white;
+}
+#order{
+    cursor: pointer;
+    background-color: #82d682; 
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1.25vw;
+    padding: 10px;
+}

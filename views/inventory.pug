@@ -1,0 +1,23 @@
+extends ./layouts/layout.pug
+block css
+    link(rel="stylesheet", type="text/css", href="/css/inventory.css")
+block scripts
+    scripts(src="/scripts/inventory.js")
+block maincontainer
+    //so a dropdown (for selecting the product) a field for quantity and a text for price and finally a restock button 
+    #flexContainer
+        #mainInventoryContainer
+            form#restockForm(action="", name=restockForm, method="post")
+                #griddiv
+                    #griddiv1
+                        img#productImage(src="/images/groceryicon.png" )
+                    #griddiv2
+                        #griddiv2-1
+                            select#productSelect(name="productSelect" size = "1")
+                                option(value="Doritos") Doritos
+                                option(value="toolong") Appleqewqwwwwwwwwwwwwwwww1212
+                                option(value="Shovelofdoomingapocalypse") Shovelofdoomingapocalypse
+                            input#productQuantity(type="number", name="productQuantity", placeholder="a number", min="1", required)
+                        #griddiv2-2
+                            span#productPrice $30.85
+                            button#order(type="submit") Order Stock

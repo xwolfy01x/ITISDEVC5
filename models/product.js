@@ -20,5 +20,22 @@ const productSchema = new Schema({
         required: true
     }
 }, { versionKey: '_somethingElse' });
+productSchema.statics.getProducts = async function() {
+    return Product.find().then(result => {
+        return result;
+    }).catch(err => {
+        console.log(err);
+    })
+}
+productSchema.statics.getOnStock = async function() {
+    return Product.find({status:"On Stock"}).then(result => {
+        return result;
+    });
+}
+productSchema.statics.getOutOfStock = async function() {
+    return Product.find({status:"Out of Stock"}).then(result => {
+        return result;
+    });
+}
 const Product = mongoose.model('Product', productSchema, 'Products');
 module.exports = Product;

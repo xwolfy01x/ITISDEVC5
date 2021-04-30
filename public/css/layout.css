@@ -15,9 +15,11 @@ header {
 .links {
     grid-column: 1/2;
     background-color: #343d52;
+    width: 15%;
+    height: auto;
     height: 100%;
     box-sizing: border-box;
-
+    position: fixed;
 }
 #groceryicon {
     height: auto;
@@ -56,6 +58,7 @@ a {
     text-decoration: none;
 }
 .main {
+    grid-column: 2/3;
     display: grid;
     grid-template-rows: 5% 1fr;
     width: 100%;

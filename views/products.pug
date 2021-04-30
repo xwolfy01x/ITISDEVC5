@@ -1,0 +1,42 @@
+extends ./layouts/layout.pug
+block css
+    link(rel="stylesheet", type="text/css" href="/css/products.css")
+block scripts 
+    script(src="/scripts/products.js")
+block maincontainer
+    .container
+        h1(style="margin-bottom: 20px;") Products
+        .status
+            span(style="font-weight: 600;") All 
+            span(style="color: #656565;") (#{totalProducts}) 
+            span(style="font-weight: 600;") |  
+            span(style="font-weight: 600;") On Stock 
+            span(style="color: #656565;") (#{onStock}) 
+            span(style="font-weight: 600;") | 
+            span(style="font-weight: 600;") Out of Stock 
+            span(style="color: #656565;") (#{outOfStock}) 
+            span(style="font-weight: 600;") 
+        .table
+            .table-header
+                .header__item
+                    a#name(class="filter__link" href="#") Product Name
+                .header__item
+                    a#status(class="filter__link filter__link--number" href="#") Status
+                .header__item
+                    a#quantity(class="filter__link filter__link--number" href="#") Current Quantity
+                .header__item
+                    a#price(class="filter__link filter__link--number" href="#") Current Price
+            .table-content
+                each product in products
+                    .table-row 
+                        .table-data 
+                            span #{product.productName}
+                        .table-data 
+                            if product.status == "Out of Stock"
+                                span(style="color: red;") #{product.status}
+                            else 
+                                span #{product.status}
+                        .table-data 
+                            span #{product.currQuantity}
+                        .table-data 
+                            span 0.00
