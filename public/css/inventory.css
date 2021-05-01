@@ -27,6 +27,13 @@
     object-fit: contain;
     background-color: white;
 }
+.selectflex{
+    height: 10%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
 
 #productSelect{
     width: 30%;
@@ -41,18 +48,16 @@
     background-repeat: no-repeat, repeat;
     background-position: right .7em top 50%, 0 0;
     background-size: .65em auto, 100%;
-}
-#productSelect:hover {
-	border-color: #888888;
+    position: absolute;
+    z-index: 1;
 }
 #productSelect:focus {
-	border-color: #aaa;
-	/* It'd be nice to use -webkit-focus-ring-color here but it doesn't work on box-shadow */
-	box-shadow: 0 0 1px 3px #82d682 ;   /*rgba(59, 153, 252, .7)*/
-	box-shadow: 0 0 0 3px -moz-mac-focusring;
-	outline: none;
+    border-color: #aaa;
+    /* It'd be nice to use -webkit-focus-ring-color here but it doesn't work on box-shadow */
+    box-shadow: 0 0 1px 3px #82d682 ;   /*rgba(59, 153, 252, .7)*/
+    box-shadow: 0 0 0 3px -moz-mac-focusring;
+    outline: none;
 }
-
 .quantityflex{
     display: flex;
     flex-direction: row;
@@ -60,7 +65,8 @@
     justify-content: space-evenly;
 }
 #productQuantity{
-    max-width: 4vw;
+    max-width: 1.5vw;
+    text-align: right;
 }
 .qtybtn{
     cursor: pointer;
@@ -75,26 +81,32 @@
 .priceflex{
     display: flex;
     flex-direction: row;
-    width: 100%;
-    padding-left: 50%;
+    justify-content: space-between;
+    width: 80%;
+    margin: 0 20% 0 20%;
 }
 .prod{
     font-family: 'Open Sans';
-    font-size: 1.25vw;
+    font-size: 1vw;
     color: white;
 }
 #totalprice{
     font-weight: bold;
 }
+.hidedata{
+    height: auto;
+    width: auto;
+    display: none;
+}
 #order{
     cursor: pointer;
-    background-color: #82d682; 
+    background-color: white; 
     border: none;
-    color: white;
+    color: black;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 1.25vw;
+    font-size: 1vw;
     padding: 10px;
 }
 #restockLIst{

@@ -4,6 +4,7 @@ const IndivSales = require('../models/indivSales');
 const OrderSale = require('../models/orders');
 const PurchaseHistory = require('../models/purchaseHistory');
 const Purchases = require('../models/purchases');
+const Purchase = require('../models/purchases');
 
 exports.getHome = (req, res) => {
     var date = new Date();
@@ -59,10 +60,45 @@ exports.getHome = (req, res) => {
         })
     })
 };
-exports.getInventory = (req, res) =>{
-    res.render('inventory', {
-        path: '/inventory'
-    });
+exports.getInventory = (req, res) =>{ 
+    Purchases.getPurchases().then(result=>{
+        // console.log(result);
+        result.sort(function(a, b) {
+            var nameA = a.productID.productName.toUpperCase(); 
+            var nameB = b.productID.productName.toUpperCase(); 
+            if (nameA < nameB) {
+              return -1;
+            }
+            if (nameA > nameB) {
+              return 1;
+            }
+            // names must be equal
+            return 0;
+            });
+
+        res.render('inventory',{
+            path: '/inventory',
+            purchases: result
+        })
+    })
+}
+exports.postRestock = (req, res) =>{
+    var date = new Date();
+    var qty = parseInt(req.body.productQuantity) + parseInt(req.body.oldquantity);
+    // console.log(req.body);
+    Product.updateOne({productName: req.body.productSelect },
+        {
+            $set: {currQuantity:  qty, status: "On Stock"}
+        }).then(result => {
+            PurchaseHistory.create(
+                {
+                    purchaseID: req.body.purchaseid, quantityBought: req.body.productQuantity, dateBought: date
+                }).then(result2 => {
+                    res.redirect('/products');
+            })
+    }).catch(err => {
+        console.log(err);
+    })
 }
 exports.getProducts = (req, res) => {
     var date = new Date();
@@ -99,17 +135,75 @@ exports.getTransactions = (req, res, next) => {
     if (req.query.fromdate !=null && req.query.todate!=null) {
         var fromdate = req.query.fromdate.split('-');
         var todate = req.query.todate.split('-');
-        console.log(todate)
         OrderSale.getOrders(fromdate, todate).then(result => {
-            History.getRecentChanges(todate).then(result2 => {
-                var salesid = [];
-                console.log(result)
-                for (var i = 0; i< result.length; i++)
-                    salesid.push(result[i].salesID)
-                console.log(salesid);
-            });
+            var found;
+            var productsReports = [];
+            for (var i = 0; i < result.length; i++) {
+                for (var j = 0; j < result[i].salesID.length; j++) {
+                    found = -1;
+                    for (var k = 0; k < productsReports.length; k++) {
+                        if ((result[i].salesID[j].productID.equals(productsReports[k].productID))
+                        && (result[i].salesID[j].totalPrice/result[i].salesID[j].quantitySold
+                        == productsReports[k].totalPrice/productsReports[k].quantitySold))
+                            found = k;
+                    }
+                    if (found == -1) {
+                        var temp = {"productID": result[i].salesID[j].productID,
+                            "quantitySold": result[i].salesID[j].quantitySold,
+                            "totalPrice": result[i].salesID[j].totalPrice
+                        };
+                        productsReports.push(temp);
+                    } else {
+                        productsReports[found].quantitySold += result[i].salesID[j].quantitySold;
+                        productsReports[found].totalPrice += result[i].salesID[j].totalPrice;
+                    }
+                }
+            }
+            Product.getProducts().then(result2 => {
+                for (var i = 0; i < result2.length; i++) {
+                    for (var j = 0; j < productsReports.length; j++) {
+                        if (productsReports[j].productID.equals(result2[i]._id)) {
+                            var temp = {"productID": productsReports[j].productID,
+                                "productName": result2[i].productName,
+                                "quantitySold": productsReports[j].quantitySold,
+                                "totalPrice": productsReports[j].totalPrice
+                            };
+                            productsReports[j] = temp;
+                        }
+                    }
+                }
+                Purchase.getPurchases2().then(result3 => {
+                    for (var i = 0; i < result3.length; i++) {
+                        for (var j = 0; j < productsReports.length; j++) {
+                            if (productsReports[j].productID.equals(result3[i].productID)) {
+                                var temp = {"productID": productsReports[j].productID,
+                                    "productName": productsReports[j].productName,
+                                    "quantitySold": productsReports[j].quantitySold,
+                                    "totalPrice": (productsReports[j].totalPrice).toFixed(2),
+                                    "COGS": (result3[i].priceEach*productsReports[j].quantitySold).toFixed(2)
+                                };
+                                productsReports[j] = temp;
+                            }
+                        }
+                    }
+                    productsReports.sort(function(a,b) {
+                        if (a.productName < b.productName)
+                            return -1;
+                        if (a.productName > b.productName)
+                            return 1;
+                        return 0;
+                    })
+                    res.render('reports', {
+                        path: '/transactions',
+                        reports: productsReports
+                    })
+                })
+            })
         }) 
-    } else res.render('reports')
+    } else res.render('reports', {
+        path: '/transactions',
+        reports: []
+    })
 }
 exports.postPriceChange = (req, res, next) => {
     var date = new Date();
@@ -117,7 +211,7 @@ exports.postPriceChange = (req, res, next) => {
         const history = new History({
             productID: req.body.id,
             currPrice: req.body.price,
-            dateChanged: date.toISOString().slice(0,10)
+            dateChanged: date
         })
         history.save();
         res.redirect('/products');

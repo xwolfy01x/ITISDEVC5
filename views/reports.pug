@@ -13,29 +13,69 @@ block maincontainer
             br
             br
             input#generate(type="submit", value="Generate")
-
-    h1(style="margin-bottom: 20px;") 
-            .table
-                .table-header
-                    .header__item
-                        a#name(class="filter__link" href="#") Product Name
-                    .header__item
-                        a#status(class="filter__link filter__link--number" href="#") Purchase Price
-                    .header__item
-                        a#quantity(class="filter__link filter__link--number" href="#") Quantity Sold
-                .table-content
-                        .table-row 
-                            .table-data 
-                                span *Product Name*
-                            .table-data 
-                                span *Purchase Price*
-                            .table-data 
-                                span *Quantity Sold*
-                .table-footer
-                        .table-row#footer
+    .container
+        .table
+            .table-header
+                .header__item
+                    a#name(class="filter__link" href="#") Product Name
+                .header__item
+                    a#quantity(class="filter__link filter__link--number" href="#") Quantity Sold
+                .header__item
+                    a#status(class="filter__link filter__link--number" href="#") Purchased Price
+                .header__item
+                    a#status(class="filter__link filter__link--number" href="#") Sold Price
+            .table-content
+                -quantitySold = 0
+                -totalPurchases = 0
+                -totalSold = 0
+                -if (!reports.length){ 
+                    .table-row
+                        .table-data
+                        .table-data 
+                        .table-data 
+                - } else {
+                    each report in reports
+                        .table-row
                             .table-data
-                                span#footer Total Price:
+                                span #{report.productName}
                             .table-data 
-                                span 
+                                span #{report.quantitySold}
                             .table-data 
-                                span#footer TotalPrice
+                                span Php #{report.COGS}
+                            .table-data 
+                                span Php #{report.totalPrice}
+                        -quantitySold+=report.quantitySold 
+                        -totalPurchases+=parseFloat(report.COGS)
+                        -totalSold+=parseFloat(report.totalPrice)
+                - }
+                .table-row
+                    .table-data
+                        span(style="font-weight: 600;") Total: 
+                    .table-data 
+                        span #{quantitySold}
+                    .table-data 
+                        span Php #{totalPurchases}
+                    .table-data 
+                        span#footer Php #{totalSold}
+                .table-row 
+                    .table-data
+                        -if (totalSold > totalPurchases) {
+                            span(style="font-weight: 600; color: #82d682;") Net Income:
+                        - } else if (totalSold == totalPurchases) {
+                            span Net Income
+                        - } else {
+                            span(style="font-weight: 600; color: red;") Net Loss:
+                        - } 
+                    .table-data
+                    .table-data
+                    .table-data 
+                        - var net =  Math.abs(totalSold - totalPurchases).toFixed(2);
+                        -if (totalSold > totalPurchases) {
+                            span(style="font-weight: 600; color: #82d682;") Php #{net}
+                        - } else if (totalSold == totalPurchases) {
+                            span 0.00
+                        - } else {
+                            span(style="font-weight: 600; color: red;") Php #{net}
+                        - } 
+
+

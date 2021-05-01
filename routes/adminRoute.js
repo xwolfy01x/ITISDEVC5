@@ -6,4 +6,5 @@ route.get('/inventory', controller.getInventory);
 route.get('/products', controller.getProducts);
 route.get('/transactions', controller.getTransactions);
 route.post('/postPrice', controller.postPriceChange);
+route.post('/restock', controller.postRestock);
 module.exports = route;

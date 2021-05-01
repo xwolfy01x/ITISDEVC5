@@ -6,23 +6,28 @@ block scripts
     script(src="/scripts/inventory.js")
 block maincontainer
     #outerContainer
-        form#restockForm(action="", name=restockForm, method="post")
-            img#productImage(src="/images/Doritos.png" )
-            select#productSelect(name="productSelect" size = "1")
-                option(value="Doritos") Doritos
-                option(value="Apple") Apple
-                option(value="Shovel") Shovel
+        form#restockForm(action="restock", name=restockForm, method="post")
+            img#productImage(src="" )
+            .selectflex
+                select#productSelect(name="productSelect" size = "1")
+                    - count = 0;
+                    each purchase in purchases
+                        option(value= `${purchase.productID.productName}`, data-price= `${purchases[count].priceEach}`, 
+                        data-oldqty= `${purchase.productID.currQuantity}`, data-purchaseid= `${purchase._id}`) #{purchase.productID.productName}
+                        - count++;
             .quantityflex
                 button.qtybtn#minus(type="button") -
-                input#productQuantity(type="number", name="productQuantity", placeholder="number", min="1", required)
+                input#productQuantity(type="number", name="productQuantity", value="1", placeholder="number", min="1", required)
                 button.qtybtn#plus(type="button") +
             .priceflex#priceeach  
                 span.prod Price for each: &nbsp
-                span.prod#productPrice Php 30.85
+                span.prod#productPrice Php #{purchases[0].priceEach}
             .priceflex#totalprice
                 span.prod Total Price: &nbsp
-                span.prod#totalPrice price * quantity
-            button#order(type="submit") Order Stock
+                span.prod#totalPrice 0.00
+            input.hidedata#oldquantity(name="oldquantity", value="f")
+            input.hidedata#purchaseid(name="purchaseid", value="f")
+            button#order(type="submit") Restock
         #restockList
             div(style="grid-column: 1/3; padding: 20px; background-color: #343d52; color: white; font-weight: bolder; font-size: 250%;")
                 span Last 5 Restock

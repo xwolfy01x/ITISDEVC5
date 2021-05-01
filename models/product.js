@@ -27,6 +27,13 @@ productSchema.statics.getProducts = async function() {
         console.log(err);
     })
 }
+productSchema.statics.getSortedProducts = async function() {
+    return Product.find().sort({productName: 1}).then(result => {
+        return result;
+    }).catch(err => {
+        console.log(err);
+    })
+}
 productSchema.statics.getOnStock = async function() {
     return Product.find({status:"On Stock"}).then(result => {
         return result;

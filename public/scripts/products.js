@@ -71,8 +71,10 @@ $(document).ready(function() {
         document.getElementById('editPrice').style.justifyItems="center";
         document.getElementsByClassName("container")[0].style.opacity="0.3";
         document.getElementsByClassName("links")[0].style.opacity="0.3";
-        console.log($(this));
+        console.log(`/images/${document.getElementById('pName').innerText}.png`);
+        
         $('#pName').text($(this).parent().prev().prev().prev().prev().children()[0].innerText);
+        $('#close').parent().next().children()[0].src=`/images/${document.getElementById('pName').innerText}.png`
         $('#pID').val($(this).parent().prev().prev().prev().prev().children()[1].value);
         document.getElementById('pPrice').value=$(this).parent().prev().children()[0].innerText;
     });
@@ -80,5 +82,12 @@ $(document).ready(function() {
         document.getElementById('editPrice').style.display="none";
         document.getElementsByClassName("container")[0].style.opacity="1";
         document.getElementsByClassName("links")[0].style.opacity="1";
+    })
+    $('#submit').click(function(e) {
+        if ($(this).parent().prev().prev().children()[1].value=="")
+            alert('New Price must not be empty!')
+        else if (parseFloat($(this).parent().prev().prev().children()[1].value) <= 0)
+            alert('Price must be valid!')
+        else $('#editForm').submit();
     })
 })

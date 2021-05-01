@@ -14,6 +14,10 @@ const SalesSchema = new Schema({
 	quantitySold: {
 		type: Number,
 		required: true
+	},
+	totalPrice: {
+		type: Number,
+		required: true
 	}
 }, { versionKey: '_somethingElse'});
 const IndivSales = mongoose.model('IndivSales', SalesSchema, 'IndivSales');
