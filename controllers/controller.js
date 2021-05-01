@@ -1,6 +1,8 @@
 const Product = require('../models/product');
 const History = require('../models/priceHistory');
 const OrderSale = require('../models/orders');
+const PurchaseHistory = require('../models/purchaseHistory');
+const Purchases = require('../models/purchases');
 exports.getHome = (req, res) => {
     var date = new Date();
     var startOfWeek = date.getDate() - date.getDay();
@@ -9,27 +11,33 @@ exports.getHome = (req, res) => {
     var dateToday = getFullDay(date.getDay()) + ", " + getFullMonth(date.getMonth()) + " " + date.getDate() + ", " + date.getFullYear();
     OrderSale.getOrdersToday().then(result => {
         OrderSale.getWeeklyOrders().then(result2 => {
-            var todaySum = 0;
-            var weeklySum = 0;
-            var todayPurchases = 0;
-            var weeklyPurchases = 0;
-            for (var i = 0; i< result.length; i++)
-                todaySum+=parseFloat(result[i].totalSale);
-            for (var i = 0; i < result2.length; i++)
-                weeklySum += parseFloat(result2[i].totalSale);
-            res.render('home', {
-                path: '/',
-                dateToday: dateToday,
-                weekDate: getFullMonth(weekStart.getMonth()) + " "+ weekStart.getDate() + ", " + " " + weekStart.getFullYear() + " - " + getFullMonth(date.getMonth()) + " " + date.getDate() + ", "  + " " + date.getFullYear(),
-                todaysOrders: result.length,
-                earnedToday: (todaySum).toFixed(2),
-                todayPurchases: 0.00,
-                todayNet: (todaySum-todayPurchases).toFixed(2),
-                weeklyOrders: result2.length,
-                weeklySum: (weeklySum).toFixed(2),
-                weeklyPurchases: 0.00,
-                weeklyNet: (weeklySum-weeklyPurchases).toFixed(2)
+            PurchaseHistory.getDailyPurchases().then(result3 => {
+                var todaySum = 0;
+                var weeklySum = 0;
+                var todayPurchases = 0;
+                var weeklyPurchases = 0;
+                for (var i = 0; i< result.length; i++)
+                    todaySum+=parseFloat(result[i].totalSale);
+                for (var i = 0; i < result2.length; i++)
+                    weeklySum += parseFloat(result2[i].totalSale);
+                for (var i = 0; i < result3.length; i++)
+                    todayPurchases = 
+                console.log(result3);
+                res.render('home', {
+                    path: '/',
+                    dateToday: dateToday,
+                    weekDate: getFullMonth(weekStart.getMonth()) + " "+ weekStart.getDate() + ", " + " " + weekStart.getFullYear() + " - " + getFullMonth(date.getMonth()) + " " + date.getDate() + ", "  + " " + date.getFullYear(),
+                    todaysOrders: result.length,
+                    earnedToday: (todaySum).toFixed(2),
+                    todayPurchases: (todayPurchases).toFixed(2),
+                    todayNet: (todaySum-todayPurchases).toFixed(2),
+                    weeklyOrders: result2.length,
+                    weeklySum: (weeklySum).toFixed(2),
+                    weeklyPurchases: (weeklyPurchases).toFixed(2),
+                    weeklyNet: (weeklySum-weeklyPurchases).toFixed(2)
             });
+            })
+            
         })
     })
     
