@@ -5,14 +5,14 @@ block scripts
     script(src="/scripts/reports.js")
 block maincontainer
     .form-style-6
-        form(action="/getreport", method="GET")
+        form#generateform(action="/transactions", method="GET")
             span Date from:
-            input(type="date")
+            input(type="date", name="fromdate")
             span  to: 
-            input(type="date")
+            input(type="date", name="todate")
             br
             br
-            input#generate(type="button", value="Generate")
+            input#generate(type="submit", value="Generate")
 
     h1(style="margin-bottom: 20px;") 
             .table

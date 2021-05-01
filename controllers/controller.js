@@ -33,7 +33,6 @@ exports.getHome = (req, res) => {
                                 monthlyPurchases += result5[i].purchaseID.priceEach * result5[i].quantityBought;
                             for (var i = 0; i < result6.length; i++)
                                 monthlySum += parseFloat(result6[i].totalSale);
-                            console.log(result6)
                             res.render('home', {
                                 path: '/',
                                 dateToday: dateToday,
@@ -74,7 +73,6 @@ exports.getProducts = (req, res) => {
                 i--;
             }
         }   
-        console.log(result0);
         prices = result0;
         Product.getProducts().then(result => {
             Product.getOnStock().then(result2 => {
@@ -96,11 +94,20 @@ exports.getProducts = (req, res) => {
     }) 
 }
 exports.getTransactions = (req, res, next) => {
+    
+    
+    if (req.query.fromdate !=null && req.query.todate!=null) {
+        var fromdate = req.query.fromdate.split('-');
+        var todate = req.query.todate.split('-');
+        console.log(todate)
+        OrderSale.getOrders(fromdate, todate).then(result => {
+            console.log(result)
+        }) 
+    }
     res.render('reports')
 }
 exports.postPriceChange = (req, res, next) => {
     var date = new Date();
-    console.log(req.body.id);
     if (req.body.id.match(/^[0-9a-fA-F]{24}$/)) {
         const history = new History({
             productID: req.body.id,
@@ -110,6 +117,9 @@ exports.postPriceChange = (req, res, next) => {
         history.save();
         res.redirect('/products');
     } else next();
+    
+}
+exports.getReports = (req, res, next) => {
     
 }
 function getFullDay(d) {
