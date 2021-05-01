@@ -15,6 +15,12 @@ const PurchaseHistorySchema = new Schema({
         required: true
     }
 }, { versionKey: '_somethingElse'}); 
+PurchaseHistorySchema.statics.getMonthlyPurchases = async function() {
+    var date = new Date();
+    return PurchaseHistory.find({dateBought: {
+        $gte: new Date(new Date(date.getFullYear(), date.getMonth(), 1).setHours(00,00,00))
+    }}).populate("purchaseID")
+}
 PurchaseHistorySchema.statics.getWeeklyPurchases = async function() {
 	var date = new Date();
     var startOfWeek = date.getDate() - date.getDay();
