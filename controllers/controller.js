@@ -1,8 +1,10 @@
 const Product = require('../models/product');
 const History = require('../models/priceHistory');
+const IndivSales = require('../models/indivSales');
 const OrderSale = require('../models/orders');
 const PurchaseHistory = require('../models/purchaseHistory');
 const Purchases = require('../models/purchases');
+
 exports.getHome = (req, res) => {
     var date = new Date();
     var startOfWeek = date.getDate() - date.getDay();
@@ -94,17 +96,20 @@ exports.getProducts = (req, res) => {
     }) 
 }
 exports.getTransactions = (req, res, next) => {
-    
-    
     if (req.query.fromdate !=null && req.query.todate!=null) {
         var fromdate = req.query.fromdate.split('-');
         var todate = req.query.todate.split('-');
         console.log(todate)
         OrderSale.getOrders(fromdate, todate).then(result => {
-            console.log(result)
+            History.getRecentChanges(todate).then(result2 => {
+                var salesid = [];
+                console.log(result)
+                for (var i = 0; i< result.length; i++)
+                    salesid.push(result[i].salesID)
+                console.log(salesid);
+            });
         }) 
-    }
-    res.render('reports')
+    } else res.render('reports')
 }
 exports.postPriceChange = (req, res, next) => {
     var date = new Date();
@@ -117,9 +122,6 @@ exports.postPriceChange = (req, res, next) => {
         history.save();
         res.redirect('/products');
     } else next();
-    
-}
-exports.getReports = (req, res, next) => {
     
 }
 function getFullDay(d) {

@@ -26,6 +26,11 @@ const historySchema = new Schema ({
         required: false
     }
 }, { versionKey: '_somethingElse' });
+historySchema.statics.getRecentChanges = async function(todate) {
+    return History.find({dateChanged: {
+        $lt: new Date(new Date(todate[0], todate[1]-1, todate[2])).setHours(23,59,99)}
+    }).sort({productID: 1});
+}
 historySchema.statics.getPriceInstance = async function(id) {
     return History.find({productId: id}).sort({dateChanged: -1}).then(result => {
         return result;

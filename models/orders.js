@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 const orderSalesSchema = new Schema({
 	salesID: [{
 		type: mongoose.Types.ObjectId,
-		ref: 'IndivSale',
+		ref: 'IndivSales',
 		required: true
 	}],
 	dateCreated: {
@@ -16,12 +16,12 @@ const orderSalesSchema = new Schema({
 	}
 }, { versionKey: '_somethingElse' });
 orderSalesSchema.statics.getOrders = async function(fromdate, todate) {
-	console.log(new Date(new Date(fromdate[0], fromdate[1]-1, fromdate[2]).setHours(00,00,00)))
-	console.log(new Date(new Date(todate[0], todate[1]-1, todate[2]).setHours(23,59,59)))
 	return OrderSale.find({dateCreated: {
-		$gte: new Date(new Date(fromdate[0], fromdate[1]-1, fromdate[2]).setHours(00,00,00)),
-		$lte: new Date(new Date(todate[0], todate[1]-1, todate[2]))
-	}})
+		$gte: new Date(new Date(fromdate[0], fromdate[1]-1, fromdate[2])).setHours(00,00,00),
+		$lt: new Date(new Date(todate[0], todate[1]-1, todate[2])).setHours(23,59,99)
+	}}).populate('salesID').populate({
+		path: 'indivSales'
+	})
 }
 orderSalesSchema.statics.getMonthlyOrders = async function() {
 	var date = new Date();
