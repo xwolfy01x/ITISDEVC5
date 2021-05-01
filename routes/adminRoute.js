@@ -4,4 +4,5 @@ const controller = require('../controllers/controller');
 route.get('/', controller.getHome);
 route.get('/inventory', controller.getInventory);
 route.get('/products', controller.getProducts);
+route.post('/postPrice', controller.postPriceChange);
 module.exports = route;

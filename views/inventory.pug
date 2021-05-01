@@ -2,22 +2,42 @@ extends ./layouts/layout.pug
 block css
     link(rel="stylesheet", type="text/css", href="/css/inventory.css")
 block scripts
-    scripts(src="/scripts/inventory.js")
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js")
+    script(src="/scripts/inventory.js")
 block maincontainer
-    //so a dropdown (for selecting the product) a field for quantity and a text for price and finally a restock button 
-    #flexContainer
-        #mainInventoryContainer
-            form#restockForm(action="", name=restockForm, method="post")
-                #griddiv
-                    #griddiv1
-                        img#productImage(src="/images/groceryicon.png" )
-                    #griddiv2
-                        #griddiv2-1
-                            select#productSelect(name="productSelect" size = "1")
-                                option(value="Doritos") Doritos
-                                option(value="toolong") Appleqewqwwwwwwwwwwwwwwww1212
-                                option(value="Shovelofdoomingapocalypse") Shovelofdoomingapocalypse
-                            input#productQuantity(type="number", name="productQuantity", placeholder="a number", min="1", required)
-                        #griddiv2-2
-                            span#productPrice $30.85
-                            button#order(type="submit") Order Stock
+    #outerContainer
+        form#restockForm(action="", name=restockForm, method="post")
+            img#productImage(src="/images/Doritos.png" )
+            select#productSelect(name="productSelect" size = "1")
+                option(value="Doritos") Doritos
+                option(value="Apple") Apple
+                option(value="Shovel") Shovel
+            .quantityflex
+                button.qtybtn#minus(type="button") -
+                input#productQuantity(type="number", name="productQuantity", placeholder="number", min="1", required)
+                button.qtybtn#plus(type="button") +
+            .priceflex#priceeach  
+                span.prod Price for each: &nbsp
+                span.prod#productPrice Php 30.85
+            .priceflex#totalprice
+                span.prod Total Price: &nbsp
+                span.prod#totalPrice price * quantity
+            button#order(type="submit") Order Stock
+        #restockList
+            div(style="grid-column: 1/3; padding: 20px; background-color: #343d52; color: white; font-weight: bolder; font-size: 250%;")
+                span Last 5 Restock
+            .tr2
+                span 5 x Item1
+                span Php 0.00
+            .tr1
+                span 2 x Item2
+                span Php 0.00
+            .tr2
+                span 10 x Item3
+                span Php 0.00
+            .tr1
+                span 999 x Item4
+                span Php 440.00
+            .tr2
+                span 20 x Item5
+                span Php 33323.00

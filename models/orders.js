@@ -9,6 +9,10 @@ const orderSalesSchema = new Schema({
 	dateCreated: {
 		type: Date,
 		required: true
+	},
+	totalSale: {
+		type: Number,
+		required: true
 	}
 }, { versionKey: '_somethingElse' });
 const OrderSale = mongoose.model('OrderSale', orderSalesSchema, 'OrderSales');

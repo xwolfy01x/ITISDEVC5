@@ -9,11 +9,12 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const historySchema = new Schema ({
     productID: {
-        type: mongoose.Types.ObjectId,
+        type: mongoose.Types.ObjectId, 
+        ref: 'Product',
         required: true
     },
     currPrice: {
-        type: Integer,
+        type: Number,
         required: true
     },
     dateChanged: {
@@ -24,6 +25,16 @@ const historySchema = new Schema ({
         type: String,
         required: false
     }
-}, { versionKey: '_somethingElse' })
-const History = mongoose.model('History', historySchema, "Product History");
+}, { versionKey: '_somethingElse' });
+historySchema.statics.getPriceInstance = async function(id) {
+    return History.find({productId: id}).sort({dateChanged: -1}).then(result => {
+        return result;
+    })
+}
+historySchema.statics.findProductPrice = async function() {
+    return History.find().sort({productID: 1, dateChanged: -1}).populate("productID").populate({
+        path: 'product'
+    });
+}
+const History = mongoose.model('History', historySchema, "PriceHistory");
 module.exports = History;

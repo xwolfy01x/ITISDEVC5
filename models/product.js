@@ -21,7 +21,7 @@ const productSchema = new Schema({
     }
 }, { versionKey: '_somethingElse' });
 productSchema.statics.getProducts = async function() {
-    return Product.find().then(result => {
+    return Product.find().sort({_id: 1}).then(result => {
         return result;
     }).catch(err => {
         console.log(err);

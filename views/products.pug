@@ -3,6 +3,24 @@ block css
     link(rel="stylesheet", type="text/css" href="/css/products.css")
 block scripts 
     script(src="/scripts/products.js")
+block etchos 
+    #editPrice(style="display: none;")
+        form#editForm(method="POST", action="/postPrice")
+            input#pID(type="text" style="display: none;" name="id" value="hi")
+            div(style="display: flex; justify-content: flex-end; grid-column: 1/3")
+                img#close(src="/images/closebutton.png" width="20px" height="20px" style="margin-top: 20px; margin-right: 20px; cursor: pointer;")
+            div(style="display: flex; border-radius: 50%; justify-content: space-evenly; margin-top: 30px; width: 100%; grid-column: 1/3")
+                img(src="/images/groceryicon.png" height="100" width="100" style="border-radius: 50%;")
+            div(style="display: flex; justify-content: space-between; margin: 0 30px 0 30px; grid-column: 1/3")
+                span Product Name
+                span#pName Name
+            div(style="display: flex; justify-content: space-between; margin: 0 30px 0 30px; grid-column: 1/3; align-items: center;")
+                span New Price
+                input#pPrice(type="number", style="text-align: right;", step="any" name="price")
+            div(style="grid-column: 1/3; margin: 10px 30px 0 30px;")
+                textarea#reason(rows="3", cols="43", placeholder="reason is optional" style="width: 100%;")
+            div(style="display: flex; justify-content: space-evenly; grid-column: 1/3; margin-top: 40px;")
+                button#submit(type="submit") Change Price
 block maincontainer
     .container
         h1(style="margin-bottom: 20px;") Products
@@ -26,11 +44,14 @@ block maincontainer
                     a#quantity(class="filter__link filter__link--number" href="#") Current Quantity
                 .header__item
                     a#price(class="filter__link filter__link--number" href="#") Current Price
+                .header__item
             .table-content
+                -count = 0;
                 each product in products
                     .table-row 
                         .table-data 
                             span #{product.productName}
+                            input(type="text" style="display: none;" value=`${product._id}`)
                         .table-data 
                             if product.status == "Out of Stock"
                                 span(style="color: red;") #{product.status}
@@ -39,4 +60,7 @@ block maincontainer
                         .table-data 
                             span #{product.currQuantity}
                         .table-data 
-                            span 0.00
+                            span #{prices[count].currPrice}
+                        .table-data 
+                            img.edit(src="/images/editbutton.png" height="30" width="30" style="cursor: pointer;")
+                    -count++;

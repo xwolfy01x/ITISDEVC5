@@ -65,4 +65,35 @@
  .filter__link.asc::after {
 	 content: "(asc)";
 }
- 
+#editPrice {
+	 position: fixed;
+	 display: flex;
+	 justify-content: center;
+	 margin-top: 10%;
+	 width: 100%;
+	 height: 100%;
+	 z-index: 10;
+}
+#editForm{
+	display: grid;
+	grid-template-rows: 10% 40% 0.5fr 0.5fr 0.25fr 30%;
+	grid-template-columns: 1fr 1fr;
+	background-color: #343d52;
+	font-family: 'Open Sans';
+	color: white;
+	align-content: space-evenly;
+	height: 30%;
+	width: 20%;
+	border: 5px 5px #82d682;
+}
+#submit {
+	background-color: white;
+	width: 25%;
+	height: 35%;
+	font-family: 'Open Sans';
+	cursor: pointer;
+	outline: none;
+}
+textarea {
+	resize: none;
+}

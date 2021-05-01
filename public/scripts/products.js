@@ -66,4 +66,19 @@ $(document).ready(function() {
         });
     
     });
+    $('.edit').click(function(e) {
+        document.getElementById('editPrice').style.display="flex";
+        document.getElementById('editPrice').style.justifyItems="center";
+        document.getElementsByClassName("container")[0].style.opacity="0.3";
+        document.getElementsByClassName("links")[0].style.opacity="0.3";
+        console.log($(this));
+        $('#pName').text($(this).parent().prev().prev().prev().prev().children()[0].innerText);
+        $('#pID').val($(this).parent().prev().prev().prev().prev().children()[1].value);
+        document.getElementById('pPrice').value=$(this).parent().prev().children()[0].innerText;
+    });
+    $('#close').click(function(e) {
+        document.getElementById('editPrice').style.display="none";
+        document.getElementsByClassName("container")[0].style.opacity="1";
+        document.getElementsByClassName("links")[0].style.opacity="1";
+    })
 })
