@@ -4,13 +4,15 @@ const OrderSale = require('../models/orders');
 exports.getHome = (req, res) => {
     var date = new Date();
     var startOfWeek = date.getDate() - date.getDay();
-    var weekStart = new Date(date.setDate(startOfWeek));
+    var weekStart = new Date(new Date(date.setDate(startOfWeek)).setHours(00,00,00))
     date = new Date();
     var dateToday = getFullDay(date.getDay()) + ", " + getFullMonth(date.getMonth()) + " " + date.getDate() + ", " + date.getFullYear();
     OrderSale.getOrdersToday().then(result => {
         OrderSale.getWeeklyOrders().then(result2 => {
             var todaySum = 0;
             var weeklySum = 0;
+            var todayPurchases = 0;
+            var weeklyPurchases = 0;
             for (var i = 0; i< result.length; i++)
                 todaySum+=parseFloat(result[i].totalSale);
             for (var i = 0; i < result2.length; i++)
@@ -20,9 +22,13 @@ exports.getHome = (req, res) => {
                 dateToday: dateToday,
                 weekDate: getFullMonth(weekStart.getMonth()) + " "+ weekStart.getDate() + ", " + " " + weekStart.getFullYear() + " - " + getFullMonth(date.getMonth()) + " " + date.getDate() + ", "  + " " + date.getFullYear(),
                 todaysOrders: result.length,
-                earnedToday: todaySum,
+                earnedToday: (todaySum).toFixed(2),
+                todayPurchases: 0.00,
+                todayNet: (todaySum-todayPurchases).toFixed(2),
                 weeklyOrders: result2.length,
-                weeklySum: weeklySum
+                weeklySum: (weeklySum).toFixed(2),
+                weeklyPurchases: 0.00,
+                weeklyNet: (weeklySum-weeklyPurchases).toFixed(2)
             });
         })
     })

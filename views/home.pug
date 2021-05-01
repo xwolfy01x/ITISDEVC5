@@ -31,10 +31,10 @@ block maincontainer
                     span #{earnedToday}
                 .tr2
                     span Total Purchases
-                    span 0.00
+                    span #{todayPurchases}
                 .tr1
                     span Net Total Income 
-                    span 0.00
+                    span #{todayNet}
             .partitionBottomRight
                 div(style="display: flex; flex-direction: column; grid-column: 1/3; padding: 20px;")
                     span(style="font-weight: bold; font-size: 1.5vh") THIS WEEK
@@ -47,7 +47,7 @@ block maincontainer
                     span #{weeklySum}
                 .tr2
                     span Total Purchases
-                    span 0.00
+                    span #{weeklyPurchases}
                 .tr1
                     span Total Income 
-                    span 0.00
+                    span #{weeklyNet}

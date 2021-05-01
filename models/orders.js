@@ -19,7 +19,7 @@ orderSalesSchema.statics.getWeeklyOrders = async function() {
 	var date = new Date();
     var startOfWeek = date.getDate() - date.getDay();
 	return OrderSale.find({dateCreated: {
-		$gte: new Date(new Date(startOfWeek).setHours(00,00,00))
+		$gte: new Date(new Date(date.setDate(startOfWeek)).setHours(00,00,00))
 	}})
 }
 orderSalesSchema.statics.getOrdersToday = async function() {
