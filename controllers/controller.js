@@ -1,17 +1,32 @@
 const Product = require('../models/product');
 const History = require('../models/priceHistory');
-const mongoose = require('mongoose');
+const OrderSale = require('../models/orders');
 exports.getHome = (req, res) => {
     var date = new Date();
     var startOfWeek = date.getDate() - date.getDay();
     var weekStart = new Date(date.setDate(startOfWeek));
     date = new Date();
     var dateToday = getFullDay(date.getDay()) + ", " + getFullMonth(date.getMonth()) + " " + date.getDate() + ", " + date.getFullYear();
-    res.render('home', {
-        path: '/',
-        dateToday: dateToday,
-        weekDate: getFullMonth(weekStart.getMonth()) + " "+ weekStart.getDate() + ", " + " " + weekStart.getFullYear() + " - " + getFullMonth(date.getMonth()) + " " + date.getDate() + ", "  + " " + date.getFullYear()
-    });
+    OrderSale.getOrdersToday().then(result => {
+        OrderSale.getWeeklyOrders().then(result2 => {
+            var todaySum = 0;
+            var weeklySum = 0;
+            for (var i = 0; i< result.length; i++)
+                todaySum+=parseFloat(result[i].totalSale);
+            for (var i = 0; i < result2.length; i++)
+                weeklySum += parseFloat(result2[i].totalSale);
+            res.render('home', {
+                path: '/',
+                dateToday: dateToday,
+                weekDate: getFullMonth(weekStart.getMonth()) + " "+ weekStart.getDate() + ", " + " " + weekStart.getFullYear() + " - " + getFullMonth(date.getMonth()) + " " + date.getDate() + ", "  + " " + date.getFullYear(),
+                todaysOrders: result.length,
+                earnedToday: todaySum,
+                weeklyOrders: result2.length,
+                weeklySum: weeklySum
+            });
+        })
+    })
+    
 };
 exports.getInventory = (req, res) =>{
     res.render('inventory', {
