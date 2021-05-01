@@ -1,0 +1,41 @@
+extends ./layouts/layout.pug
+block css
+    link(rel="stylesheet", type="text/css", href="/css/reports.css")
+block scripts 
+    script(src="/scripts/reports.js")
+block maincontainer
+    .form-style-6
+        form(action="/getreport", method="GET")
+            span Date from:
+            input(type="date")
+            span  to: 
+            input(type="date")
+            br
+            br
+            input#generate(type="button", value="Generate")
+
+    h1(style="margin-bottom: 20px;") 
+            .table
+                .table-header
+                    .header__item
+                        a#name(class="filter__link" href="#") Product Name
+                    .header__item
+                        a#status(class="filter__link filter__link--number" href="#") Purchase Price
+                    .header__item
+                        a#quantity(class="filter__link filter__link--number" href="#") Quantity Sold
+                .table-content
+                        .table-row 
+                            .table-data 
+                                span *Product Name*
+                            .table-data 
+                                span *Purchase Price*
+                            .table-data 
+                                span *Quantity Sold*
+                .table-footer
+                        .table-row#footer
+                            .table-data
+                                span#footer Total Price:
+                            .table-data 
+                                span 
+                            .table-data 
+                                span#footer TotalPrice

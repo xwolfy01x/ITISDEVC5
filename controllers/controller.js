@@ -95,6 +95,9 @@ exports.getProducts = (req, res) => {
         })
     }) 
 }
+exports.getTransactions = (req, res, next) => {
+    res.render('reports')
+}
 exports.postPriceChange = (req, res, next) => {
     var date = new Date();
     console.log(req.body.id);
