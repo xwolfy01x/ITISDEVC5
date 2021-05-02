@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	displayanddata()
+	displayanddata();
 	
 	// $('option').each(function() {
 	// 	if($(this).text().length > 15){
@@ -22,7 +22,7 @@ $(document).ready(function() {
 	});
 	
 	$('select').on('change', function() {
-		displayanddata()
+		displayanddata();
 
 		$('#productSelect').attr('size', '1');
 		$(this).blur();
@@ -34,6 +34,10 @@ $(document).ready(function() {
 
 	$('select').on('blur', function() {
 		$('#productSelect').attr('size', '1');
+	});
+
+	$("#productQuantity").change(function(){
+		displaytotalprice();
 	});
 });
 

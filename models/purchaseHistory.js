@@ -33,5 +33,10 @@ PurchaseHistorySchema.statics.getDailyPurchases = async function() {
 		$gte: new Date(new Date().setHours(00,00,00))
 	}}).populate("purchaseID");
 }
+PurchaseHistorySchema.statics.getLatestPurchases = async function() {
+    return PurchaseHistory.find({dateBought: {
+		$gte: new Date(new Date().setHours(00,00,00))
+	}}).limit(5).sort({dateBought: -1}).populate("purchaseID");
+}
 const PurchaseHistory = mongoose.model('PurchaseHistory', PurchaseHistorySchema, 'PurchaseHistory');
 module.exports = PurchaseHistory;

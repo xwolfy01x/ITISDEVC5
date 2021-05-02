@@ -60,32 +60,47 @@ exports.getHome = (req, res) => {
         })
     })
 };
-exports.getInventory = (req, res) =>{ 
+exports.getInventory = (req, res) =>{
     Purchases.getPurchases().then(result=>{
-        // console.log(result);
-        result.sort(function(a, b) {
-            var nameA = a.productID.productName.toUpperCase(); 
-            var nameB = b.productID.productName.toUpperCase(); 
-            if (nameA < nameB) {
-              return -1;
-            }
-            if (nameA > nameB) {
-              return 1;
-            }
-            // names must be equal
-            return 0;
+        PurchaseHistory.getLatestPurchases().then(result2 =>{
+            result.sort(function(a, b) {
+                var nameA = a.productID.productName.toUpperCase(); 
+                var nameB = b.productID.productName.toUpperCase(); 
+                if (nameA < nameB) {
+                return -1;
+                }
+                if (nameA > nameB) {
+                return 1;
+                }
+                // names must be equal
+                return 0;
             });
-
-        res.render('inventory',{
-            path: '/inventory',
-            purchases: result
+            Product.getProducts().then(result3 =>{
+                for(var i=0; i<result3.length;i++){
+                    for(var j=0; j<result2.length;j++){
+                        if(result2[j].purchaseID.productID.equals(result3[i]._id)){
+                            var temp = {"productName": result3[i].productName,
+                                "quantityBought": result2[j].quantityBought,
+                                "purchaseID": result2[j].purchaseID};
+                            result2[j] = temp;
+                        }
+                    }
+                }
+                res.render('inventory',{
+                    path: '/inventory',
+                    purchases: result,
+                    purhistory: result2
+                })
+            })
+            
         })
+    }).catch(err => {
+        console.log(err);
     })
 }
 exports.postRestock = (req, res) =>{
     var date = new Date();
     var qty = parseInt(req.body.productQuantity) + parseInt(req.body.oldquantity);
-    // console.log(req.body);
     Product.updateOne({productName: req.body.productSelect },
         {
             $set: {currQuantity:  qty, status: "On Stock"}
